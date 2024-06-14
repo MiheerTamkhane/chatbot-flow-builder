@@ -35,7 +35,7 @@ const MessageNode = ({ data }) => {
       <Handle
         type="source"
         position={Position.Right}
-        style={{ height: "7px", width: "6px" }}
+        style={{ height: "7px", width: "7px" }}
       />
     </>
   );
