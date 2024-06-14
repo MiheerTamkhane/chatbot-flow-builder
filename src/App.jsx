@@ -1,11 +1,25 @@
-import FlowEx from "./components/FlowEx";
-
+import { Toaster } from "react-hot-toast";
+import NodesPanel from "./components/NodesPanel";
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
 function App() {
   return (
-    <div className="w-full h-screen bg-slate-300">
-      <h1 className="text-3xl font-bold underline">Hello World</h1>
-      <FlowEx />
-    </div>
+    <>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          className: "",
+          duration: 2000,
+        }}
+      />
+      <div className="w-full h-screen bg-slate-100 flex flex-col">
+        <Navbar />
+        <div className="flex gap-2 h-full">
+          <NodesPanel />
+          <Sidebar />
+        </div>
+      </div>
+    </>
   );
 }
 
