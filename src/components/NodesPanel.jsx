@@ -42,6 +42,7 @@ const NodesPanel = () => {
     sources,
     saveChanges,
   } = useFlow();
+
   const onConnect = useCallback((params) => {
     sources.current = { ...sources.current, [params?.source]: true };
 
@@ -135,6 +136,7 @@ const NodesPanel = () => {
   );
 
   const handleNodeClick = (event, node) => {
+    // Deletes the node if ctr + click happend
     if (
       event.type === "contextmenu" ||
       (event.ctrlKey && event.type === "click")
@@ -143,6 +145,7 @@ const NodesPanel = () => {
       handleNodeDelete([node]);
       setSelectedNode({});
     } else {
+      // select the node.
       setSelectedNode(node);
     }
   };
@@ -155,17 +158,20 @@ const NodesPanel = () => {
   const isValidConnection = (connection) =>
     !sources.current?.[connection?.source];
 
+  // to update the nodes text
   useEffect(() => {
     setNodes(
       nodes?.map((el) => (el?.id === selectedNode?.id ? selectedNode : el))
     );
   }, [selectedNode]);
 
+  // to save the nodes in localStorage when click on 'Save Chnages" button
   useEffect(() => {
     setSavedNodes(nodes);
     setSavedEdges(edges);
   }, [saveChanges]);
 
+  // Deleting the last node will get remove from localStorage also
   useEffect(() => {
     if (nodes?.length < 1) {
       setSavedNodes([]);

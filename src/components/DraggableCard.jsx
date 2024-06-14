@@ -1,5 +1,6 @@
 import React from "react";
 
+// Wrapper component for sidebar cards.
 const DraggableCard = ({ type, img, label, onDragStart, className }) => {
   return (
     <div

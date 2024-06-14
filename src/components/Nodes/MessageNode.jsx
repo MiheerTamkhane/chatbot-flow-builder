@@ -1,8 +1,8 @@
 import { Handle, Position } from "reactflow";
-// import { ReactComponent as BrandIcon } from "./assets/brand-icon.svg";
 import Message from "../../assets/message.svg";
 import WhatsappLogo from "../../assets/whatsapp-logo.svg";
 import { useFlow } from "../../context/FlowContext";
+
 const MessageNode = ({ data }) => {
   const { label, id } = data;
   const { selectedNode } = useFlow();
