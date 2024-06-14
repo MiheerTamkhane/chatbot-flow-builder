@@ -2,7 +2,7 @@
 
 This project is a home assignment for BiteSpeed Frontend Development - SDE1 role.
 
-# Live link: **[ChatFlow](https://eff.org)**
+# Live link: **[ChatFlow](https://main--chatflow-builder.netlify.app/)**
 
 # Features
 
