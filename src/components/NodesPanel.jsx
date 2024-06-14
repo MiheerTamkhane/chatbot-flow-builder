@@ -14,7 +14,8 @@ import ReactFlow, {
 } from "reactflow";
 import { v4 as uuidv4 } from "uuid";
 import { useFlow } from "../context/FlowContext";
-import CustomNode from "./CustomNode";
+import MessageNode from "./Nodes/MessageNode";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import "reactflow/dist/style.css";
 
 const nodeDefaults = {
@@ -23,19 +24,15 @@ const nodeDefaults = {
 };
 
 const nodeTypes = {
-  message: CustomNode,
+  message: MessageNode,
 };
 
 const NodesPanel = () => {
+  const [savedNodes, setSavedNodes] = useLocalStorage("nodes", []);
+  const [savedEdges, setSavedEdges] = useLocalStorage("edges", []);
   const reactFlowWrapper = useRef(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState(() => {
-    let nodes = JSON.parse(localStorage.getItem("nodes"));
-    if (nodes?.length) {
-      return nodes;
-    }
-    return [];
-  });
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState(savedNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(savedEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const {
     selectedNode,
@@ -43,6 +40,7 @@ const NodesPanel = () => {
     nonTargetedNodes,
     setNonTargetedNodes,
     sources,
+    saveChanges,
   } = useFlow();
   const onConnect = useCallback((params) => {
     sources.current = { ...sources.current, [params?.source]: true };
@@ -99,18 +97,6 @@ const NodesPanel = () => {
     },
     [reactFlowInstance]
   );
-  const handleNodeClick = (event, node) => {
-    if (
-      event.type === "contextmenu" ||
-      (event.ctrlKey && event.type === "click")
-    ) {
-      event.preventDefault(); // Prevent the default context menu from appearing
-      handleNodeDelete([node]);
-      setSelectedNode({});
-    } else {
-      setSelectedNode(node);
-    }
-  };
 
   const handleNodeDelete = useCallback(
     (deletedNodes) => {
@@ -148,6 +134,19 @@ const NodesPanel = () => {
     [nodes, edges]
   );
 
+  const handleNodeClick = (event, node) => {
+    if (
+      event.type === "contextmenu" ||
+      (event.ctrlKey && event.type === "click")
+    ) {
+      event.preventDefault(); // Prevent the default context menu from appearing
+      handleNodeDelete([node]);
+      setSelectedNode({});
+    } else {
+      setSelectedNode(node);
+    }
+  };
+
   const handlePaneClick = () => {
     if (selectedNode?.id) setSelectedNode({});
   };
@@ -163,9 +162,16 @@ const NodesPanel = () => {
   }, [selectedNode]);
 
   useEffect(() => {
-    // localStorage.setItem("nodes", JSON.stringify(nodes));
-    // localStorage.setItem("edges", JSON.stringify(edges));
-  }, [nodes]);
+    setSavedNodes(nodes);
+    setSavedEdges(edges);
+  }, [saveChanges]);
+
+  useEffect(() => {
+    if (nodes?.length < 1) {
+      setSavedNodes([]);
+      setSavedEdges([]);
+    }
+  }, [nodes, edges]);
 
   return (
     <div className="flex grow flex-col">
@@ -186,8 +192,8 @@ const NodesPanel = () => {
           className="validationflow"
           isValidConnection={isValidConnection}
         >
-          <Background variant="dots" gap={12} size={1} />
-          {/* <Controls /> */}
+          <Background variant="dots" gap={10} size={1} />
+          <Controls />
         </ReactFlow>
       </div>
     </div>

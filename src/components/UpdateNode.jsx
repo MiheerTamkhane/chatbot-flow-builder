@@ -1,4 +1,5 @@
 import { useFlow } from "../context/FlowContext";
+import LeftArrow from "../assets/left-arrow.svg";
 
 const UpdateNode = () => {
   const { selectedNode, setSelectedNode } = useFlow();
@@ -20,20 +21,7 @@ const UpdateNode = () => {
             className="text-gray-600 fixed"
             onClick={() => setSelectedNode({})}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="2"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
+            <img src={LeftArrow} alt="left-arrow" />
           </button>
           <p className="flex w-full items-center text-lg font-semibold justify-center">
             {selectedNode?.type}

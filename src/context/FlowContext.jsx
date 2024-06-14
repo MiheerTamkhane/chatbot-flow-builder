@@ -6,6 +6,7 @@ const FlowProvider = ({ children }) => {
   const [selectedNode, setSelectedNode] = useState({});
   const sources = useRef({});
   const [nonTargetedNodes, setNonTargetedNodes] = useState(new Set());
+  const [saveChanges, setSaveChanges] = useState(false);
 
   return (
     <FlowContext.Provider
@@ -15,6 +16,8 @@ const FlowProvider = ({ children }) => {
         nonTargetedNodes,
         setNonTargetedNodes,
         sources,
+        saveChanges,
+        setSaveChanges,
       }}
     >
       {children}

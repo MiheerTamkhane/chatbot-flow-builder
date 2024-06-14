@@ -12,7 +12,7 @@ function App() {
           duration: 2000,
         }}
       />
-      <div className="w-full h-screen bg-slate-100 flex flex-col">
+      <div className="w-full h-screen bg-slate-50 flex flex-col">
         <Navbar />
         <div className="flex gap-2 h-full">
           <NodesPanel />
