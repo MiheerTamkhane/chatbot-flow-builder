@@ -4,6 +4,7 @@ import UpdateNode from "./UpdateNode";
 import DraggableCard from "./DraggableCard";
 import SquareMessage from "../assets/square-message.svg";
 import ColorPalatte from "../assets/colors.svg";
+import toast from "react-hot-toast";
 const Sidebar = () => {
   const { selectedNode } = useFlow();
   const onDragStart = (event, nodeType) => {
@@ -28,8 +29,8 @@ const Sidebar = () => {
             <DraggableCard
               type="color"
               img={ColorPalatte}
-              label="ColorNode"
-              onDragStart={onDragStart}
+              label="Color Node"
+              onDragStart={() => toast.error("Cant use still in progress.")}
               className="text-red-500 border-red-300"
             />
           </div>
